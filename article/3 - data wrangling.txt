@@ -1,0 +1,105 @@
+3. Preparação e Exploração dos Dados
+
+3.1 Limpeza e Tratamento de Dados
+
+Após análise inicial, aplicou-se o seguinte pipeline de limpeza:
+
+Remoção de colunas irrelevantes (Name, Location, Company, customerID, Onboard_date) para reduzir o ruído.
+
+Conversão de variáveis temporais: Onboard_date foi transformada em Days_Onboard, representando o tempo desde a contratação até uma data de referência (ex: 01/01/2017).
+
+from datetime import datetime
+df["Onboard_date"] = pd.to_datetime(df["Onboard_date"], format="%Y-%m-%d")
+df["Days_Onboard"] = (pd.to_datetime("2017-01-01") - df["Onboard_date"]).dt.days
+df = df.drop(columns=["Onboard_date"])
+
+Verificação de valores faltantes mostrou ausência significativa de dados ausentes, o que permitiu prosseguir sem imputação.
+
+3.2 Engenharia e Codificação de Variáveis
+
+Para preparar atributos categóricos para algoritmos de ML, foram aplicados:
+
+One-hot encoding em Account_Manager, gerando colunas account_manager_0 e account_manager_1.
+
+Discretização do gasto total (Total_Purchase) em faixas (purchase_a, purchase_b, etc.):
+
+df["purchase_range"] = pd.cut(df["Total_Purchase"], bins=4, labels=["a", "b", "c", "d"])
+df = pd.get_dummies(df, columns=["purchase_range", "Account_Manager"], drop_first=True)
+
+3.3 Divisão Treino/Teste e Estratégia de Balanceamento de Classes
+
+Os dados foram divididos em treino (70%) e teste (30%), com estratificação para preservar a proporção original de clientes que cancelaram. Em seguida, foi aplicada uma estratégia de balanceamento supervisionado no conjunto de treino.
+
+Neste projeto, optou-se pelo uso de oversampling com a técnica BorderlineSMOTE, que gera amostras sintéticas da classe minoritária (Churn = 1) em regiões próximas à fronteira de decisão. Essa abordagem foi preferida em relação ao undersampling, pois mantém todas as amostras da classe majoritária, evitando perda de informação.
+
+O uso do SMOTE contribuiu para a melhoria da capacidade preditiva do modelo ao expor o algoritmo a mais exemplos representativos da classe de interesse, o que é especialmente importante em problemas desbalanceados como churn.
+
+3.4 Construção do Pipeline de Modelagem
+
+Foi montado um pipeline com FunctionTransformer, ColumnTransformer, e SMOTE, aplicado a três algoritmos:
+
+Logistic Regression (penalização L1)
+
+Random Forest
+
+XGBoost (versão simplificada)
+
+Hiperparâmetros foram ajustados com GridSearchCV, usando validação cruzada estratificada (5 folds) e recall como métrica principal.
+
+3.5 Avaliação Comparativa dos Modelos e Justificativa da Escolha
+
+Logistic Regression
+
+Melhor resultado com C=10, penalty='l1', class_weight='balanced'
+
+Recall médio ≈ 0.76, AUC = 0.842
+
+Coeficientes esparsos e interpretáveis
+
+Random Forest
+
+Obteve desempenho superior no dataset desbalanceado, sem SMOTE
+
+AUC ≈ 0.83, recall levemente inferior após balanceamento
+
+Maior variabilidade entre folds
+
+XGBoost
+
+Performance bruta elevada
+
+Maior sensibilidade a overfitting e necessidade de tunagem complexa
+
+Menor adequação ao contexto educacional
+
+Justificativa final
+
+A regressão logística foi escolhida por apresentar:
+
+Recall elevado com estabilidade
+
+Interpretação direta dos coeficientes
+
+Implementação simples e reprodutível
+
+3.6 Escolha do Threshold Ideal
+
+Por padrão, modelos classificam como positivo quando a probabilidade é >0.5. Para maximizar recall, foi analisado o comportamento das métricas em diferentes thresholds:
+
+📌 Figura 5 – Precision, Recall e F1-score vs Threshold
+
+
+Interpretação:
+
+Recall aumenta conforme o threshold diminui
+
+Precision e F1-score caem após certo ponto
+
+O threshold 0.24 foi escolhido por:
+
+Maximizar recall sem comprometer drasticamente a precisão
+
+Representar o ponto onde as métricas começam a divergir
+
+Esse threshold passou a ser utilizado como ponto de decisão operacional, classificando como churn todos os clientes com probabilidade > 0.24.
+

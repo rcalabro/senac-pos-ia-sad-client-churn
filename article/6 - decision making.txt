@@ -1,0 +1,68 @@
+6. Tomada de Decisão a partir do Modelo
+6.1 Aplicação Prática no Ambiente de Negócio
+
+A principal contribuição do modelo de predição de churn é sua capacidade de transformar dados operacionais e contratuais em insights acionáveis. Com base nas probabilidades geradas para cada cliente, a empresa pode antecipar comportamentos de cancelamento e tomar decisões proativas que minimizem a perda de receita. Essa capacidade preditiva, quando corretamente integrada à estratégia de relacionamento com o cliente, tem potencial de impactar diretamente indicadores como receita recorrente, satisfação e eficiência operacional.
+
+    Identificação proativa de clientes em risco: ao gerar uma probabilidade individualizada de cancelamento para cada cliente, o modelo permite a formação de listas segmentadas com clientes de maior risco. O threshold de 0.24 foi definido com base em análise visual das curvas de precision, recall e F1-score, buscando maximizar a recuperação de casos reais de churn (alta sensibilidade) sem comprometer excessivamente a precisão. Dessa forma, a área comercial pode atuar preventivamente junto aos clientes mais vulneráveis, priorizando ações com maior potencial de retorno.
+
+    Personalização de ofertas de retenção: as variáveis mais influentes no modelo, como Num_Sites, Days_Onboard, Years e Total_Purchase_binned, fornecem uma base sólida para personalização de estratégias. Clientes com alto número de sites podem indicar uso intensivo e custo elevado de operação, sugerindo que uma revisão de pacote ou suporte especializado pode reduzir o risco percebido. Já clientes com baixo tempo de casa (poucos dias onboard) ou que pertencem a faixas intermediárias de compra podem se beneficiar de ações de engajamento, onboarding mais estruturado ou descontos progressivos.
+
+    Cálculo de ROI para intervenções de retenção: ao estimar o risco de churn e relacioná-lo ao valor esperado de vida do cliente (LTV), é possível avaliar o retorno sobre o investimento de campanhas específicas. Clientes com alta probabilidade de cancelamento, mas com alto LTV, devem ser os principais alvos de ações corretivas. Já clientes de baixo valor e alta probabilidade de churn podem justificar uma abordagem automatizada ou mesmo a não intervenção, racionalizando o uso de recursos.
+
+A análise de churn também demonstrou que 56% dos cancelamentos ocorreram com clientes que já possuíam Account Manager (AM), evidenciando que o acompanhamento atual não tem sido suficiente. Além disso, 237 clientes ativos foram identificados com alto risco de churn – divididos quase igualmente entre clientes com e sem AM. Isso abre espaço para reavaliação estratégica da atuação dos AMs e realocação com base em risco, valor financeiro e tempo de casa.
+6.2 Cenários Operacionais de Uso
+
+    Gatilhos automáticos de retenção: sistemas de CRM, plataformas de automação de marketing e soluções de atendimento podem ser integrados ao modelo para disparar comunicações automáticas (e-mails, SMS, mensagens in-app) sempre que a previsão de churn ultrapassar o threshold. Isso permite reduzir o tempo de resposta e padronizar a ação preventiva em escala.
+
+    Painéis gerenciais de churn projetado: a aplicação periódica do modelo em toda a base ativa permite a construção de dashboards preditivos que antecipam as taxas de churn esperadas por segmento, por região, por canal de venda ou por carteira de gerente. Essa visualização permite que lideranças comerciais e executivas tenham uma visão dinâmica do risco agregado e possam atuar de forma estratégica sobre clusters críticos.
+
+    Apoio ao planejamento comercial e de metas: ao entender o perfil de risco da base, a empresa pode rever metas de renovação, priorizar contas de risco e reforçar a atuação consultiva de suas equipes. Essa priorização baseada em dados aumenta a produtividade e assertividade dos times, permitindo alocação mais eficaz dos recursos humanos.
+
+    Segmentação de clientes críticos: o modelo identificou grupos prioritários como:
+
+        Clientes com alto valor de compra e alta probabilidade de churn (ver Tabela 1)
+
+        Clientes com longo tempo sem contato e alta propensão a cancelar (ver Tabela 2)
+
+        Clientes que aparecem em ambos os grupos (ver Tabela 3), como o cliente ID 665, Robinson-Perez
+
+📌 Tabela 1 – Top 10 Clientes em Risco com Maior Volume de Compras
+📌 Tabela 2 – Top 10 Clientes em Risco com Maior Tempo de Relacionamento
+📌 Tabela 3 – Cliente em Risco com Maior Prioridade
+6.3 Reestruturação Estratégica da Atuação dos AMs
+
+Com base nos achados:
+
+    Reforçar a capacitação dos AMs, com foco em identificação de risco e ações preventivas.
+
+    Redirecionar os esforços dos AMs para os 121 clientes em risco já acompanhados.
+
+    Atribuir AMs aos 116 clientes em risco atualmente sem acompanhamento, priorizando aqueles com maior valor e tempo de relacionamento.
+
+A criação de um Radar de Retenção (dashboard operacional) é recomendada para monitorar em tempo real:
+
+    Churn atual e projetado
+
+    Cobertura dos AMs sobre clientes em risco
+
+    Tempo desde o último contato
+
+    Ações realizadas por cliente
+
+6.4 Riscos e Cuidados na Aplicação do Modelo
+
+Apesar dos benefícios expressivos, a utilização de modelos preditivos como suporte à decisão exige uma abordagem cuidadosa, considerando limitações técnicas, riscos operacionais e aspectos éticos.
+
+    Falsos positivos: campanhas direcionadas a clientes que não iriam cancelar podem gerar desperdício de recursos, desgaste comercial ou mesmo confusão. É importante estabelecer regras de elegibilidade, cruzar a predição com o histórico e, sempre que possível, validar os casos com os times de relacionamento antes da ação.
+
+    Falsos negativos: clientes que de fato cancelam, mas que foram classificados como "seguros" pelo modelo, representam oportunidades perdidas de retenção. Por isso, o modelo deve ser usado como ferramenta de apoio à decisão, e não como substituto da análise humana.
+
+    Obsolescência do modelo: mudanças no comportamento dos clientes, em ofertas da concorrência ou na política de preços podem invalidar os padrões aprendidos. Por isso, recomenda-se revalidar o desempenho do modelo trimestralmente e considerar retreinamentos frequentes com dados mais recentes.
+
+    Dependência excessiva do modelo: decisões automatizadas baseadas exclusivamente na probabilidade prevista podem desconsiderar fatores contextuais relevantes. O uso do modelo deve estar inserido em um processo mais amplo de análise crítica e interação humana.
+
+    Comunicação e ética: a abordagem ao cliente deve ser cuidadosa para evitar desconfortos. É inadequado comunicar diretamente que ele foi classificado como "em risco". Em vez disso, campanhas devem ser formuladas com base em mensagens positivas, de valorização e incentivo à permanência.
+
+6.5 Considerações Finais
+
+O sucesso da aplicação do modelo depende não apenas da qualidade técnica da solução, mas da maturidade organizacional em integrar dados à estratégia, da capacitação das equipes em interpretar e atuar sobre os resultados e do compromisso com a transparência e ética no uso de inteligência artificial. Quando utilizado com responsabilidade e critério, esse modelo tem o potencial de transformar dados brutos em ações efetivas, aumentando a eficiência operacional, a retenção de clientes e a vantagem competitiva da organização.

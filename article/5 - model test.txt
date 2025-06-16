@@ -1,0 +1,47 @@
+5. Resultados do Modelo
+
+5.1 Performance no Conjunto de Teste
+
+O desempenho do modelo final foi avaliado sobre o conjunto de teste previamente separado durante a divisão inicial da base. Essa avaliação foi conduzida com base nas métricas de classificação mais relevantes ao contexto de churn, considerando especialmente a priorização por recall discutida anteriormente.
+
+Recall: ~0.76 – o modelo demonstrou elevada sensibilidade, conseguindo identificar corretamente cerca de 76% dos clientes que efetivamente cancelaram. Essa é a métrica-chave do problema, pois perder um cliente em risco tem custo elevado.
+
+Precision: ~0.63 – entre os clientes classificados como "churn", aproximadamente 63% realmente cancelaram, indicando um nível razoável de precisão para a ação.
+
+F1-score: ~0.69 – representa o compromisso entre precisão e sensibilidade, adequado para cenários com desbalanceamento.
+
+AUC: ~0.842 – excelente capacidade discriminativa, reforçando a eficiência do modelo em separar os perfis de churn dos clientes fiéis.
+
+📌 Figura Y – Matriz de Confusão Final
+📌 Figura Z – Relatório de Classificação (Precision, Recall, F1-score)
+📌 Figura W – Curva ROC Final com AUC
+
+Esses resultados estão alinhados com os obtidos durante a validação cruzada com GridSearchCV, o que sugere boa generalização do modelo para dados não vistos.
+
+5.2 Importância das Variáveis
+
+Como mencionado anteriormente, a penalização L1 aplicada na regressão logística atuou como um método de regularização e seleção de variáveis, conferindo ao modelo maior interpretabilidade. As principais variáveis retidas e com maior peso no cálculo da probabilidade de churn foram:
+
+Num_Sites: apresenta forte correlação positiva com churn. Clientes com muitos sites podem ter maior complexidade operacional ou custos, o que pode levar ao cancelamento.
+
+Days_Onboard: representa o tempo desde a entrada do cliente. Sua influência negativa sobre a probabilidade de churn pode refletir fidelidade ou maturidade na relação.
+
+Years: o tempo total de relacionamento é igualmente significativo, sugerindo que clientes mais antigos podem se comportar de forma diferente em relação ao churn.
+
+Total_Purchase_binned: a discretização do gasto total em quartis evidenciou padrões distintos de churn entre faixas intermediárias.
+
+Essas variáveis, além de sua utilidade preditiva, oferecem fundamentos objetivos para campanhas e segmentações de retenção.
+
+5.3 Limitações do Modelo
+
+Apesar dos bons resultados, algumas limitações devem ser destacadas para contextualizar as conclusões e orientar melhorias futuras:
+
+Base de dados reduzida: o dataset possui menos de mil registros, o que limita a capacidade de generalização e pode gerar viés em algumas inferências.
+
+Ausência de variáveis comportamentais: não há informações sobre uso do produto, interação com suporte, feedbacks ou ciclos de cobrança, que poderiam enriquecer a predição.
+
+Modelo linear: embora interpretável, a Regressão Logística não capta relações não lineares complexas. Abordagens como XGBoost ou Redes Neurais podem ser exploradas futuramente.
+
+Classificação binária: o modelo obriga uma decisão categórica, o que pode ser inadequado para clientes com risco intermediário. Alternativas incluem zonas cinzentas ou modelagem com escala ordinal.
+
+Essas limitações não invalidam o modelo atual, mas reforçam a importância de atualizações constantes, expansão da base e melhoria na coleta de variáveis para sustentar decisões mais robustas.

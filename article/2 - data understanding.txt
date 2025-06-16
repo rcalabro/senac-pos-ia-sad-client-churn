@@ -1,0 +1,42 @@
+2. Entendimento do Problema e do Dataset
+
+O problema abordado neste projeto consiste na previsão do churn de clientes com base em um conjunto de atributos contratuais, comportamentais e demográficos. A tarefa é formulada como um problema de classificação binária supervisionada, em que o modelo deve prever se um cliente irá cancelar (Churn = 1) ou manter (Churn = 0) o serviço.
+
+O dataset fornecido foi disponibilizado no arquivo customer_churn.csv e contém dados de 900 clientes de uma empresa que oferece serviços digitais voltados à veiculação de anúncios em websites. Cada linha representa um cliente distinto e inclui um conjunto de variáveis descritivas, tanto numéricas quanto categóricas, associadas ao relacionamento do cliente com a empresa. As principais colunas disponíveis são:
+    Name: Nome do contato mais recente do cliente (não utilizado na modelagem);
+    Age: Idade do cliente;
+    Total_Purchase: Valor total gasto em publicidade;
+    Account_Manager: Indicador binário que informa se o cliente possui gerente de conta (1) ou não (0);
+    Years: Tempo total, em anos, como cliente da empresa;
+    Num_Sites: Quantidade de websites utilizados pelo cliente;
+    Onboard_date: Data de início do relacionamento com o cliente;
+    Location: Endereço da sede do cliente (não utilizado na modelagem);
+    Company: Nome da empresa cliente (utilizado apenas para referência textual);
+    Churn: Variável-alvo, indicando se o cliente cancelou o serviço (1) ou não (0).
+
+Essas variáveis permitem capturar tanto aspectos demográficos quanto comportamentais e contratuais do cliente, compondo uma base sólida para construção de um modelo preditivo de churn. Antes de seguir com a modelagem, foi realizada uma inspeção visual dos primeiros registros da base:
+
+📌 Exemplo – Primeiras 5 linhas do dataset original:
+
+df_raw.head()
+
+<!-- [Inserir aqui a tabela gerada com df.head(5)] -->
+
+Após a verificação da estrutura e limpeza básica dos dados, foi gerada uma matriz de correlação entre as variáveis numéricas e dummies derivadas de variáveis categóricas, com o objetivo de investigar relações lineares entre os atributos e sua associação com a variável-alvo churn.
+
+📌 Figura 1 – Matriz de Correlação entre Variáveis Numéricas
+Matriz de Correlação
+
+A matriz de correlação oferece importantes indícios sobre o comportamento dos dados:
+
+    A variável num_sites apresenta correlação positiva moderada com churn (0.53). Isso indica que, quanto maior o número de sites utilizados pelo cliente, maior a chance de evasão. Uma possível interpretação é que clientes com maior complexidade operacional demandam maior suporte e podem estar mais sensíveis à insatisfação ou custos.
+
+    A variável years, que representa o tempo de relacionamento com a empresa, tem correlação positiva com churn (0.21). Apesar de sutil, essa correlação é contraintuitiva: clientes antigos, teoricamente mais engajados, também podem demonstrar propensão à saída, o que pode indicar desgaste na relação ou falta de inovação na entrega de valor.
+
+    A presença de um gerente de conta (account_manager_1) apresenta correlação negativa com churn (-0.07). Embora o valor seja baixo, sugere um efeito levemente protetivo: clientes com suporte dedicado podem se sentir mais assistidos e, portanto, menos propensos a cancelar. Por outro lado, account_manager_0 (sem gerente) aparece levemente correlacionado positivamente com churn.
+
+    As variáveis derivadas do total de compras (purchase_a, purchase_b, etc.) apresentam correlações baixas ou negativas entre si, como esperado, e não demonstram correlação significativa com churn individualmente. Isso reforça que o valor total gasto por si só não é um bom preditor isolado para evasão e pode precisar ser interpretado em conjunto com outras variáveis, como tempo de relacionamento ou complexidade do serviço.
+
+    As demais variáveis (age, days_onboard) não apresentaram correlação significativa com a variável-alvo. Isso indica que, ao menos sob análise linear, idade e tempo desde a entrada não são diretamente associados à probabilidade de churn.
+
+Apesar de a matriz de correlação se restringir a identificar relações lineares entre variáveis numéricas, ela cumpre papel essencial na exploração inicial, ajudando a destacar atributos relevantes para a modelagem e a identificar possíveis redundâncias ou colinearidades. Esses insights servirão como base para as etapas seguintes de preparação, transformação e seleção de variáveis.

@@ -1,0 +1,64 @@
+4. Escolhas Técnicas e Modelagem Final
+
+Com base nas análises comparativas realizadas no Capítulo 3, optamos pela Regressão Logística com penalização L1 como modelo final. Essa decisão se apoiou em uma combinação entre bom desempenho, interpretabilidade dos coeficientes e estabilidade frente a dados balanceados com SMOTE. O modelo foi treinado utilizando todo o conjunto de treino balanceado, com aplicação do pipeline final otimizado, e os resultados foram avaliados no conjunto de teste.
+
+4.1 Pipeline Final
+
+O pipeline foi estruturado de forma modular, incorporando transformações personalizadas, rebalanceamento e o modelo preditivo. As etapas foram:
+
+FunctionTransformer: para o cálculo da variável Days_Onboard, representando o tempo desde a entrada do cliente até a coleta dos dados.
+
+ColumnTransformer, responsável pelo pré-processamento:
+
+StandardScaler para padronizar variáveis numéricas contínuas;
+
+KBinsDiscretizer aplicado à variável Total_Purchase, dividindo em quartis para capturar faixas de investimento de forma categórica;
+
+OneHotEncoder para codificação de variáveis categóricas como Location e Company.
+
+BorderlineSMOTE: método de oversampling focado nas amostras próximas à fronteira de decisão, garantindo um balanceamento mais eficaz sem introduzir ruído excessivo.
+
+LogisticRegression com os seguintes hiperparâmetros:
+
+C=10, penalty='l1', class_weight='balanced', solver='liblinear'
+
+Esse pipeline foi salvo utilizando joblib para garantir reprodutibilidade e facilitar a aplicação em novos dados.
+
+📌 Figura X – Diagrama do Pipeline Final
+
+4.2 Resultados do Treinamento Final
+
+Após o treinamento, avaliamos o desempenho do modelo sobre o conjunto de teste. Os resultados apresentados confirmaram os padrões observados na validação cruzada:
+
+📌 Figura Y – Matriz de Confusão Final
+📌 Figura Z – Relatório de Classificação (Precision, Recall, F1-score)
+
+Precision: ~0.63 – boa precisão na identificação de churn real entre os casos positivos previstos;
+
+Recall: ~0.76 – alta sensibilidade, alinhada com o objetivo principal de identificar clientes em risco;
+
+F1-score: ~0.69 – equilíbrio entre precisão e recall;
+
+Além disso, a curva ROC reforça a capacidade discriminativa do modelo:
+
+📌 Figura W – Curva ROC Final com AUC
+
+AUC: ~0.842 – indicando excelente separabilidade entre as classes churn e não churn.
+
+Esses resultados validam a robustez do modelo final, equilibrando desempenho com capacidade de interpretação.
+
+4.3 Importância dos Atributos
+
+A utilização da penalização L1 teve como efeito adicional a seleção automática de variáveis, zerando coeficientes de atributos não informativos. Com isso, o modelo tornou-se mais enxuto e interpretável.
+
+As variáveis mais influentes foram:
+
+Num_Sites – clientes com número maior de sites tendem a apresentar maior propensão ao churn;
+
+Days_Onboard – tempo desde a entrada do cliente apresentou relação inversa com churn, possivelmente indicando desgaste de relacionamento;
+
+Years – tempo total como cliente também se mostrou um fator relevante;
+
+Total_Purchase_binned – faixas de investimento evidenciaram diferenças comportamentais entre grupos de risco.
+
+Essas variáveis não apenas contribuíram para a performance preditiva, mas também ofereceram insumos estratégicos para segmentação e personalização de ações de retenção.

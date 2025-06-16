@@ -1,0 +1,44 @@
+7. Conclusão
+
+Este estudo demonstrou, na prática, como técnicas de Machine Learning podem ser aplicadas para resolver um problema relevante no setor de serviços digitais: a previsão de churn e a orientação de ações de retenção. A partir de um conjunto de dados reais, percorremos todas as etapas fundamentais de um pipeline de aprendizado supervisionado, desde o entendimento dos dados até a tomada de decisão baseada em resultados preditivos.
+Principais Contribuições
+
+    Desenvolvimento do modelo preditivo: Foi construído um modelo de Regressão Logística com penalização L1, escolhido após comparação com outros algoritmos, por seu equilíbrio entre desempenho, interpretabilidade e simplicidade operacional. O modelo alcançou recall de aproximadamente 76% e AUC de 0.842, métricas que indicam capacidade relevante de identificar clientes com maior risco de cancelamento.
+
+    Ajuste de threshold para priorização de sensibilidade: A definição do ponto de corte em 0.24 foi resultado de análise cuidadosa das curvas de precision-recall e F1-score. A estratégia buscou maximizar a detecção de churns reais, o que é crítico em contextos onde o custo da perda de clientes supera o custo de uma falsa intervenção.
+
+    Interpretação orientada à ação: A análise dos coeficientes do modelo revelou fatores diretamente associados ao risco de churn — como Num_Sites, Days_Onboard e Total_Purchase_binned — permitindo que as áreas de negócio desenhem ações específicas baseadas nesses atributos.
+
+Valor Gerado para o Negócio
+
+Mais do que um exercício técnico, este projeto buscou demonstrar como modelos preditivos podem ser incorporados de forma prática à estratégia da empresa. Entre os ganhos observados estão:
+
+    Segmentação proativa da base de clientes, permitindo ações direcionadas antes da ocorrência do cancelamento.
+
+    Melhoria da alocação de recursos, ao indicar quais clientes exigem atenção personalizada dos Account Managers.
+
+    Apoio à definição de metas e indicadores, com base no risco projetado e no valor potencial de cada cliente.
+
+    Criação de uma base objetiva para campanhas de retenção, com maior eficiência e mensuração de retorno.
+
+Limitações e Caminhos Futuros
+
+Apesar dos resultados positivos, algumas limitações merecem destaque:
+
+    Base de dados reduzida, o que pode restringir a generalização do modelo.
+
+    Ausência de variáveis comportamentais e transacionais em tempo real, que poderiam ampliar o poder preditivo e permitir segmentações mais refinadas.
+
+    Simples estrutura de modelagem, que pode ser evoluída com o uso de técnicas mais avançadas (como ensembles ou modelos baseados em árvores com explainability integrada).
+
+Para futuras iterações, recomenda-se:
+
+    Enriquecer o dataset com variáveis de engajamento (acessos, interações, suporte).
+
+    Incorporar aprendizado online ou modelos adaptativos para acompanhar mudanças no comportamento da base.
+
+    Integrar a solução preditiva com sistemas de CRM, automatizando alertas e gatilhos de atuação.
+
+Consideração Final
+
+Em síntese, este projeto reforça o valor da ciência de dados como aliada estratégica. A aplicação do modelo não apenas melhora a capacidade de prever churn, mas também promove uma cultura organizacional orientada por dados, onde decisões são tomadas com base em evidências, e não apenas em intuição.
